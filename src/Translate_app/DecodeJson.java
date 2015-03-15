@@ -34,13 +34,13 @@ public class DecodeJson {
 		}
 	}
 	
-	public ArrayList getPos(){
-		ArrayList list_Pos = new ArrayList();
+	public ArrayList<String> getPos(){
+		ArrayList<String> list_Pos = new ArrayList<String>();
 		ary_Dict = Json.getJSONArray("dict");		
 		dictlen = ary_Dict.length();
 		for(int i = 0; i < dictlen; i++){
 			String pos = (String) ary_Dict.getJSONObject(i).get("pos");
-			list_Pos.add(i, pos);					
+			list_Pos.add(pos);					
 		}
 		return list_Pos;
 	}
