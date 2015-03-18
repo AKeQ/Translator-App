@@ -8,5 +8,5 @@
  * 滑鼠點擊左邊詞性，可顯示相關翻譯
  * 儲存按鈕:滑鼠點擊詞性 + 點擊翻譯結果 + 按下儲存按鈕 = 儲存至.json檔案
  * PS:程式會自行判斷單字是否新增過!所以單字不可以重覆儲存
- 
+ <iframe width="560" height="315" src="https://www.youtube.com/embed/Ri7-vnrJD3k" frameborder="0" allowfullscreen></iframe>
  * 待新增功能...觀看單字表視窗。
