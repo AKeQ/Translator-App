@@ -1,6 +1,6 @@
 # Translator-App
 ![solarized dualmode](https://github.com/AKeQ/Translator-App/blob/master/demo.png)
- * Java 執行檔(jar檔案) 下載網址 : http://goo.gl/PYKDJ4
+ * Java 執行檔(jar檔案) 下載網址 : http://goo.gl/SjLlr0
  * 程式啟動後，輸入框會自動帶入程式所在的檔案路徑，並且預設讀取名稱為translate.json的檔案
  * 若程式讀取不到檔案，會自動在路徑下建立translate.json檔案
  * PS : 使用者可以自行檔案名稱命名，
