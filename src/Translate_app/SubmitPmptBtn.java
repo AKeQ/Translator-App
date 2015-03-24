@@ -47,7 +47,7 @@ public class SubmitPmptBtn implements ActionListener{
 					}
 				}catch(IOException e){
 					pmptView.displayError("系統找不到指定的檔案!", JOptionPane.WARNING_MESSAGE);
-					pmptView.displayConfirm("是否要新增檔案", "提示");				
+					pmptView.displayConfirm("是否要新增檔案", "提示訊息");				
 					if(pmptView.getDiaResult() == JOptionPane.YES_OPTION){
 						pmptView.setStr_Falg(filePath, false);
 						pmptView.setPmpVisible(false);

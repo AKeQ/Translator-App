@@ -77,7 +77,7 @@ public class DecodeJson {
 			score = obj_Entry.getDouble("score");
 			string += Math.ceil(score*10000.0)/100.0+"%"+" ";
 		}else{
-			string += 0+"%"+" ";
+			string += 0+".0%"+" ";
 		}
 		//*word
 		string += obj_Entry.get("word")+" ";

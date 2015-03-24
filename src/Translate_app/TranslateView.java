@@ -4,10 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +19,7 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,7 +27,11 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
+import javax.swing.ListSelectionModel;
+import javax.swing.WindowConstants;
 
 
 public class TranslateView extends JFrame{
@@ -34,6 +42,7 @@ public class TranslateView extends JFrame{
 	private static JList resultBox, posBox, dictBox;
 	private JPanel panel;
 	private boolean disableResultFlag;
+	JToggleButton showTableBtn;
 	public TranslateView(){
 		initUI();
 	}
@@ -47,19 +56,25 @@ public class TranslateView extends JFrame{
         sourceBox = new JTextField("");
 		translateBtn = new JButton("翻譯");
 		saveBtn = new JButton("儲存");
-          
-		translateBtn.setFocusPainted(false);
+		showTableBtn = new JToggleButton("單字表"); 
+		
+        translateBtn.setFocusPainted(false);
 		translateBtn.setContentAreaFilled(false);        
 		saveBtn.setFocusPainted(false);
 		saveBtn.setContentAreaFilled(false);
-        
+		showTableBtn.setFocusPainted(false);
+						
 		listModel1 = new DefaultListModel();
         listModel2 = new DefaultListModel();
         listModel3 = new DefaultListModel();
-
+        
         resultBox = new JList(listModel1);
 		posBox = new JList(listModel2);
 		dictBox = new JList(listModel3);
+		
+		posBox.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		dictBox.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
 		//saveBtn.setEnabled(false);
         JLabel label = new JLabel("Copyright\u00a92015 by Eddie Chiu   ");
         label.setFont(new Font("Comic Sans MS", Font.PLAIN, 14));//Brush Script MT
@@ -71,14 +86,12 @@ public class TranslateView extends JFrame{
 		translateBtn.setFont(font_tw);
 		resultBox.setFont(font_tw);
 		saveBtn.setFont(font_tw);
+		showTableBtn.setFont(font_tw);		
 		//set list font
 		posBox.setFont(font_list);
 		dictBox.setFont(font_list);
 		gl.setAutoCreateContainerGaps(true);
-        gl.setAutoCreateGaps(true);
-               
-        //resultBox.setSelectionModel(new DisabledItemSelectionModel());
-        //resultBox.setCellRenderer(new DisabledItemListCellRenderer());
+        gl.setAutoCreateGaps(true);  
                
         sourceBox.setBorder(BorderFactory.createLineBorder(Color.darkGray,2));        
         resultBox.setBorder(BorderFactory.createLineBorder(Color.darkGray, 2));
@@ -93,6 +106,16 @@ public class TranslateView extends JFrame{
         scroll_1.setPreferredSize(new Dimension(150,45));
         scroll_2.setPreferredSize(new Dimension(50,100));
         scroll_3.setPreferredSize(new Dimension(250,120));
+        
+        //set showTableBtn in JPanel and set right side
+        JSeparator separator = new JSeparator();
+        separator.setForeground(Color.gray);
+        JPanel bottom = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        bottom.setBackground(new Color(224,233,205));        
+        ((FlowLayout)bottom.getLayout()).setHgap(0);
+        ((FlowLayout)bottom.getLayout()).setVgap(0);
+        bottom.add(showTableBtn);
+        
         //平行
         gl.setHorizontalGroup(
     		gl.createParallelGroup() //並行
@@ -113,8 +136,17 @@ public class TranslateView extends JFrame{
             		gl.createSequentialGroup()
                 	.addComponent(scroll_2)                	
                 	.addComponent(scroll_3)
-                )                    
-        );
+                )
+                .addGroup( // 3
+            		gl.createSequentialGroup()
+                	.addComponent(separator)                	                	
+                )
+                 .addGroup( // 4
+            		gl.createSequentialGroup()
+            		.addGap(10)
+                	.addComponent(bottom)                	                	
+                )
+        );        
         //垂直
         gl.setVerticalGroup(
     		gl.createSequentialGroup() //序列
@@ -135,18 +167,26 @@ public class TranslateView extends JFrame{
             		gl.createParallelGroup(GroupLayout.Alignment.CENTER)
             		.addComponent(scroll_2)
                 	.addComponent(scroll_3)
-            	)                                                                 
+            	)
+            	.addGroup(// 3
+            		gl.createParallelGroup(GroupLayout.Alignment.CENTER)
+            		.addComponent(separator)            		
+            	)            	
+            	.addGroup(// 4
+            		gl.createParallelGroup(GroupLayout.Alignment.CENTER)
+            		.addComponent(bottom)                	
+            	)
         );
         
         label.setHorizontalAlignment(JLabel.RIGHT);
-        add(panel, BorderLayout.CENTER);
+        add(panel, BorderLayout.CENTER);        
         add(label,BorderLayout.SOUTH);
-        panel.setBackground(Color.lightGray);
+        panel.setBackground(new Color(224,233,205));
         pack();
         setTitle("Translator App 1.0");
         setLocationRelativeTo(null);
         setResizable(false);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         setAlwaysOnTop(true);
 	}
 	
@@ -165,18 +205,26 @@ public class TranslateView extends JFrame{
 	//User Pressed Button
 	void addTranslateBtnListener(ActionListener listenForTranslateBtn){
 		translateBtn.addActionListener(listenForTranslateBtn);
-	}
-	
+	}	
 	//User Pressed Enter
 	void addSourceBoxListener(KeyListener listenForSourceBox){
 		sourceBox.addKeyListener(listenForSourceBox);
 	}	
-	//User DoubleClicked posBox List  
+	//User Pressed posBox List  
 	void addPosBoxListener(MouseListener listenForPosBox){
 		posBox.addMouseListener(listenForPosBox);
 	}
+	//User Pressed saveBtn
 	void addSaveBtnListener(ActionListener listenForSaveBtn){
 		saveBtn.addActionListener(listenForSaveBtn);
+	}
+	//User Pressed showTableBtn
+	void addShowTableBtnListener(ActionListener listenForShowTableBtn){
+		showTableBtn.addActionListener(listenForShowTableBtn);
+	}
+	//User Pressed Closed Button
+	public void addWindowCloseListener(WindowListener listenForWindowClose){
+		this.addWindowListener(listenForWindowClose);
 	}
 	//clean All List 
 	public void cleanListData(){
@@ -203,8 +251,8 @@ public class TranslateView extends JFrame{
 	public int getPosIndex(){
 		return posBox.getSelectedIndex();
 	}
-	public void displayInfo(String error){
-		JOptionPane.showMessageDialog(this, error, "Information", JOptionPane.INFORMATION_MESSAGE);
+	public void displayInfo(String error , int info ){
+		JOptionPane.showMessageDialog(this, error, "提示訊息", info);
 	}
 	//Form posBox item refresh dictBox data
 	public void changeDictBox(ArrayList ary){

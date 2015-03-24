@@ -107,7 +107,7 @@ public class Model {
 		//System.out.println(a+b+c);		
 		String dict [] = dictValue.split(",");		
 		Pattern pattern1 = Pattern.compile("^[0-9]+(\\.[0-9]+)?%");
-		Pattern pattern2 = Pattern.compile("%\\s.*\\s");		
+		Pattern pattern2 = Pattern.compile("%\\s[^\\d|\\w]*\\s");		
 		Matcher matcher1 = pattern1.matcher(dict[0]);
 		Matcher matcher2 = pattern2.matcher(dict[0]);		
 		double score = 0.0 ;
@@ -119,11 +119,14 @@ public class Model {
 		}
 		while(matcher2.find()){
 			String temp = matcher2.group();
+			
 			temp = temp.replaceAll("^%\\s","");
+			
 			temp = temp.replaceAll("\\s", "");
 			translate = temp;			
-		}			
-		dict[0] = dict[0].replaceAll("^[0-9]+(\\.[0-9]+)?%\\s.*\\s","");			
+		}
+		
+		dict[0] = dict[0].replaceAll("^[0-9]+(\\.[0-9]+)?%\\s[^\\d|\\w]*\\s","");			
 		/*
 		System.out.printf("%f %s ",score,translate);
 		for(int i = 0; i < dict.length; i++){
@@ -160,11 +163,11 @@ public class Model {
 		tempObj.put("trans", resultValue);
 		
 		char upChar = sourceValue.toUpperCase().charAt(0);
-		//System.out.println(tempObj.toString());
+		System.out.println(tempObj.toString());
 		
 		if(confirmRep(upChar,tempObj)){
 			JSONArray mapping = obj.getJSONArray(Character.toString(upChar));
-			obj.getJSONArray(Character.toString(upChar)).put(mapping.length(),tempObj);
+			obj.getJSONArray(Character.toString(upChar)).put(mapping.length(),tempObj);			
 			WriteFile(obj.toString(), path, false);
 			return true;
 		}else{
@@ -184,5 +187,14 @@ public class Model {
 			}
 		}
 		return flag;
+	}
+	public String getFileName(){
+		File file = new File(path);
+		String name = file.getName();
+		name = name.replaceFirst("\\.json$", "");
+		return name;
+	}
+	public JSONObject getJSONObj(){
+		return obj;
 	}
 }

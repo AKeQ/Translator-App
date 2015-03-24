@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.UnsupportedEncodingException;
+
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 //監聽 Enter按鈕/翻譯按鈕
@@ -31,7 +33,7 @@ public class SubmitTranslateBtn extends KeyAdapter implements ActionListener {
 				if(theModel.receiveText(textFieldValue)){
 					theCtrl.parseJson(theModel.getJson());
 				}else{
-					theView.displayInfo("我需要網路!!!");
+					theView.displayInfo("我需要網路!!!",JOptionPane.ERROR_MESSAGE);
 				}				
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block				
@@ -47,7 +49,7 @@ public class SubmitTranslateBtn extends KeyAdapter implements ActionListener {
 			if(theModel.receiveText(textFieldValue)){
 				theCtrl.parseJson(theModel.getJson());
 			}else{
-				theView.displayInfo("我需要網路!!!");
+				theView.displayInfo("我需要網路!!!",JOptionPane.ERROR_MESSAGE);
 			}				
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block				

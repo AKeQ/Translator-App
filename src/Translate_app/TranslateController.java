@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -11,6 +13,7 @@ import java.util.Observer;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
@@ -30,7 +33,9 @@ public class TranslateController {
 		theView.addTranslateBtnListener(new SubmitTranslateBtn(theModel, theView, this));;
 		theView.addSourceBoxListener(new SubmitTranslateBtn(theModel, theView, this));		
 		theView.addSaveBtnListener(new SaveTranslateBtn(theModel, theView));
-		theView.addPosBoxListener(new ChangeList());		
+		theView.addShowTableBtnListener(new ShowTranslateTableBtn(theModel, theView));		
+		theView.addPosBoxListener(new ChangeList());
+		theView.addWindowCloseListener(new WindowHandler());
 	}
 	
 	public void parseJson(String Json){		
@@ -46,7 +51,17 @@ public class TranslateController {
 			theView.disableResultBox(true);
 		}
 	}
-	
+	class WindowHandler extends WindowAdapter {
+		
+		public void windowClosing(WindowEvent e){
+			 int result=JOptionPane.showConfirmDialog(theView,
+		               "確定要結束程式嗎?",
+		               "確認訊息",
+		               JOptionPane.YES_NO_OPTION,
+		               JOptionPane.WARNING_MESSAGE);
+			 if(result==JOptionPane.YES_OPTION){System.exit(0);}
+		}
+	}
 	class ChangeList extends MouseAdapter{
 		public void mousePressed(MouseEvent e){
 			try{				
@@ -59,7 +74,7 @@ public class TranslateController {
 				}
 				theView.changeDictBox(new_Dict);				
 			}catch(Exception a){
-				theView.displayInfo("沒有選項");
+				theView.displayInfo("沒有選項",JOptionPane.ERROR_MESSAGE);
 				//a.printStackTrace();			
 			}				
 		}

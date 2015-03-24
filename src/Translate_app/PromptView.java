@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowListener;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -14,13 +15,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 public class PromptView extends JFrame {
 	
 	private JLabel pathLabel = new JLabel("File Path :");
-	private JTextField pathBox = new JTextField(System.getProperty("user.dir")+"\\translate.json");
+	private JTextField pathBox = new JTextField(System.getProperty("user.dir")+"\\Translate.json");
 	private JButton browserBtn = new JButton("Browser...");
 	private JButton submitBtn = new JButton("OK");
 	private String str; //json or path
@@ -73,16 +75,16 @@ public class PromptView extends JFrame {
 					.addComponent(submitBtn)				
 		);
 		pathBox.selectAll();	
-		label.setHorizontalAlignment(JLabel.RIGHT);
+		label.setHorizontalAlignment(JLabel.RIGHT);		
 		label.setBackground(Color.lightGray);
-		panel.setBackground(Color.lightGray);		
+		panel.setBackground(new Color(224,233,205));		
 		add(panel, BorderLayout.CENTER);
 		add(label, BorderLayout.SOUTH);
 		pack();
-		setTitle("Select a File");
+		setTitle("¿ï¾ÜÀÉ®×");
         setLocationRelativeTo(null);
         setResizable(false);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         setAlwaysOnTop(true);
 	}	
 	public void addPathBoxListener(DocumentListener listenForPathBox){
@@ -93,6 +95,9 @@ public class PromptView extends JFrame {
 	}
 	public void addBrowserBtnListener(ActionListener listenForBrowserBtn){
 		browserBtn.addActionListener(listenForBrowserBtn);
+	}
+	public void addWindowCloseListener(WindowListener listenForWindowClose){
+		this.addWindowListener(listenForWindowClose);
 	}
 	public String getPathValue(){
 		return pathBox.getText().toString();
